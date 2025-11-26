@@ -13,7 +13,9 @@ const messages = {
       home: '首页',
       training: '培训模块',
       tasks: '任务管理',
-      language: '语言'
+      language: '语言',
+      login: '登录',
+      logout: '退出'
     },
     training: {
       title: '培训模块',
@@ -22,6 +24,7 @@ const messages = {
       statusNotStarted: '未开始',
       start: '开始学习',
       completed: '已完成',
+      difficulty: { beginner: '初级', intermediate: '中级', advanced: '高级' },
       modules: {
         components: { title: '组件化开发基础', desc: '学习Vue 3组件化开发，掌握Props、Emits、插槽等核心概念', duration: '2小时' },
         composition: { title: 'Composition API', desc: '深入理解Composition API，掌握ref、reactive、computed等核心API', duration: '3小时' },
@@ -55,6 +58,22 @@ const messages = {
       }
     },
     pages: {
+      login: {
+        title: '登录',
+        desc: '使用 OpenID 登录。本页面使用环境变量进行配置。',
+        vars: {
+          issuer: 'VITE_OIDC_ISSUER',
+          clientId: 'VITE_OIDC_CLIENT_ID',
+          redirect: 'VITE_OIDC_REDIRECT_URI（指向本应用回调地址）',
+          logoutRedirect: 'VITE_OIDC_LOGOUT_REDIRECT_URI（可选）',
+          scopes: 'VITE_OIDC_SCOPES（默认 openid profile email）'
+        },
+        actions: { loginOidc: '使用 OpenID 登录', logout: '退出' }
+      },
+      authCallback: {
+        title: '登录回调处理中',
+        desc: '请稍候，正在完成认证流程...'
+      },
       api: {
         title: 'API集成和数据处理培训',
         subtitle: '学习HTTP客户端封装、错误处理和数据缓存策略',
@@ -83,7 +102,52 @@ const messages = {
       testing: {
         title: '测试和调试技能培训',
         subtitle: '学习Vue.js组件测试、调试技巧和性能优化',
-        unit: { title: '单元测试' },
+        unit: {
+          title: '单元测试',
+          desc: '学习如何编写和运行Vue.js组件的单元测试',
+          calculator: { title: '计算器组件（测试示例）', labelA: '数字 A', labelB: '数字 B', resultLabel: '结果:' },
+          actions: { reset: '重置' },
+          cases: { title: '测试用例示例', passed: { title: '通过的测试' }, edge: { title: '边界情况测试' } },
+          codeSample: { title: '测试代码示例' },
+          runner: { title: '测试运行器', runStatus: { running: '运行中...', ready: '运行测试' }, clearResults: '清除结果', results: { title: '测试结果', passed: '通过:', failed: '失败:' } }
+        },
+        componentDemo: {
+          title: '组件测试演示',
+          desc: '演示如何测试 props、emits、交互与可访问性',
+          testedTitle: '被测组件',
+          interactionsTitle: '交互区域',
+          labelInput: '按钮标签',
+          disableToggle: '禁用按钮',
+          simulateClick: '模拟点击',
+          reset: '重置',
+          eventsTitle: '事件日志',
+          noEvents: '暂无事件',
+          clicks: '点击次数：'
+        },
+        debugDemo: {
+          title: '调试技巧演示',
+          desc: '演示日志、错误捕获与断点思路',
+          logInfo: '打印信息',
+          logWarn: '打印警告',
+          triggerError: '触发错误',
+          errorCaptureTitle: '错误捕获演示',
+          childErrorButton: '子组件触发错误',
+          logsTitle: '调试日志',
+          noLogs: '暂无日志',
+          clearLogs: '清除日志'
+        },
+        performanceDemo: {
+          title: '性能测试与优化演示',
+          desc: '渲染压力测试与简单优化对比',
+          countLabel: '渲染条目数',
+          optimizedToggle: '启用优化模式',
+          startRender: '开始渲染',
+          clearList: '清除列表',
+          duration: '渲染耗时：',
+          listTitle: '列表',
+          currentRender: '当前渲染',
+          optimizedSnapshot: '优化结果快照'
+        },
         component: { title: '组件测试' },
         debug: { title: '调试技巧' },
         performance: { title: '性能测试和优化' },
@@ -132,10 +196,25 @@ const messages = {
         title: '路由和导航培训',
         subtitle: '学习Vue Router的高级特性和导航守卫',
         basic: { title: '基础路由操作' },
-        dynamic: { title: '动态路由' },
+        dynamic: {
+          title: '动态路由演示',
+          desc: '点击下面的任务项查看动态路由效果',
+          tasks: { title: '任务列表', status: { completed: '已完成', inProgress: '进行中' }, manualTitle: '手动输入任务ID', inputPlaceholder: '输入任务ID', go: '跳转' },
+          help: { title: '动态路由说明', items: { param: '路径 /task/:id 中的 :id 是动态参数', getParam: '在组件中可以通过 $route.params.id 获取参数', props: '也可以将参数作为 props 传递给组件', multi: '动态路由支持多个参数，如 /user/:userId/post/:postId' } },
+          info: { title: '当前路由参数', taskId: '任务ID:', fullPath: '完整路径:' }
+        },
         nested: { title: '嵌套路由示例' },
         guards: { title: '导航守卫' },
-        programmatic: { title: '程序化导航' },
+        programmatic: {
+          title: '程序化导航',
+          desc: '使用编程方式进行页面跳转',
+          basic: { title: '基本导航', toHome: '跳转到首页', toTasks: '跳转到任务', toTraining: '跳转到培训', back: '返回上一页' },
+          params: { title: '带参数的导航', taskIdPlaceholder: '任务ID', viewTask: '查看任务', queryPlaceholder: '查询参数', search: '搜索' },
+          advanced: { title: '高级导航', replace: '替换当前历史记录', withQuery: '带查询参数' },
+          history: { title: '导航历史操作', forward: '前进', back: '后退', goToStep3: '跳转到第3步' },
+          help: { title: '程序化导航说明', items: { push: '添加新的历史记录', replace: '替换当前历史记录', back: '返回上一页', go: '在历史记录中前进/后退指定步数' } },
+          info: { title: '当前导航历史', currentPath: '当前路径:', historyLength: '历史记录数:', canBack: '可以后退:', canForward: '可以前进:' }
+        },
         design: {
           title: '页面设计与最佳实践',
           description: '合理设计路由层级、命名与守卫，有助于提升可维护性与可读性。',
@@ -156,10 +235,48 @@ const messages = {
       state: {
         title: '状态管理培训',
         subtitle: '学习使用Pinia进行Vue.js应用的状态管理',
-        basic: { title: '基础状态管理' },
-        gettersActions: { title: 'Getters和Actions' },
+        basic: {
+          title: '基础状态管理',
+          counterTitle: '计数器状态',
+          double: '双倍:',
+          triple: '三倍:',
+          info: { title: '状态信息', labels: { storeId: 'Store名称:', name: '计数器名称:', count: '当前值:', double: '双倍值:' } },
+          counter: { reset: '重置' },
+          advanced: { toggle: '显示/隐藏 高级功能', title: '高级状态操作', amountPlaceholder: '自定义数值', increment: '增加', namePlaceholder: '自定义名称', updateName: '更新名称' }
+        },
+        gettersActions: {
+          title: 'Getters和Actions',
+          totals: { title: '用户总数' },
+          avgAge: { title: '平均年龄' },
+          current: { title: '当前用户', labels: { name: '姓名:', email: '邮箱:', age: '年龄:' } },
+          form: { namePlaceholder: '姓名', emailPlaceholder: '邮箱', agePlaceholder: '年龄' },
+          actions: { add: '添加用户' },
+          list: { title: '用户列表', ageSuffix: '岁', delete: '删除' },
+          logs: { title: '操作日志', addUser: '添加用户: ', deleteUser: '删除用户: ' }
+        },
         modules: { title: '模块化状态管理' },
-        persistence: { title: '状态持久化' },
+        module: {
+          counter: { title: '计数器模块', controlTitle: '控制计数器', reset: '重置' },
+          user: { title: '用户模块', ageSuffix: '岁', controlTitle: '控制用户', add: '添加用户', delete: '删除用户' },
+          cross: { title: '跨模块交互', counterAffectsUsers: '计数器值影响用户数量', userCountLabel: '个用户', userAgeAffectsCounter: '用户平均年龄影响计数器' },
+          logs: { title: '模块间通信日志', counterChanged: '计数器变化: {old} → {new}', autoAddUser: '自动添加用户: {name}', userCountChanged: '用户数量变化: {old} → {new}' },
+          advanced: { toggle: '显示/隐藏 高级功能', title: '高级模块化功能', incrementLabel: '计数器增量', apply: '应用', ageLabel: '用户年龄', add: '添加' },
+          sampleNames: { zhKids: ['小明','小红','小刚','小丽','小华'], zhAdults: ['张三','李四','王五','赵六','钱七'], generic: ['新用户','测试用户','示例用户'] }
+        },
+        persistence: {
+          title: '主题设置',
+          currentThemeLabel: '当前主题:',
+          theme: { dark: '深色', light: '浅色' },
+          toggle: '切换主题',
+          reset: '重置主题',
+          preview: { title: '主题预览区域', desc: '这是一个主题预览区域，会随主题变化而改变外观。', checkbox: '示例复选框', primaryButton: '主要按钮', secondaryButton: '次要按钮' },
+          colors: { title: '颜色设置', primaryLabel: '主色调:', apply: '应用' },
+          info: {
+            title: '持久化信息', autoSave: '主题设置会自动保存到本地存储', persist: '刷新页面后设置会保留', storageKeysLabel: '当前存储的键值:', clearStorage: '清除存储', toggleStorageInfo: '显示/隐藏 存储信息', detailsTitle: '存储详情',
+            details: { darkMode: '深色模式:', primaryColor: '主色调:', storageState: '存储状态:', stored: '已存储', notStored: '未存储' }
+          },
+          alert: { cleared: '主题存储已清除，刷新页面后将恢复默认设置' }
+        },
         design: {
           title: '页面设计与最佳实践',
           description: '清晰的 Store 边界与类型约束，让状态管理更可控。',
@@ -222,8 +339,11 @@ const messages = {
       home: 'Home',
       training: 'Training',
       tasks: 'Tasks',
-      language: 'Language'
+      language: 'Language',
+      login: 'Login',
+      logout: 'Logout'
     },
+    common: { yes: 'Yes', no: 'No' },
     training: {
       title: 'Training Modules',
       subtitle: 'Choose the Vue.js skills you want to learn',
@@ -231,6 +351,7 @@ const messages = {
       statusNotStarted: 'Not Started',
       start: 'Start Learning',
       completed: 'Completed',
+      difficulty: { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' },
       modules: {
         components: { title: 'Component Basics', desc: 'Props, emits, and slots core concepts', duration: '2h' },
         composition: { title: 'Composition API', desc: 'ref, reactive, computed and core APIs', duration: '3h' },
@@ -264,6 +385,22 @@ const messages = {
       }
     },
     pages: {
+      login: {
+        title: 'Login',
+        desc: 'Sign in with OpenID. This page uses environment variables for configuration.',
+        vars: {
+          issuer: 'VITE_OIDC_ISSUER',
+          clientId: 'VITE_OIDC_CLIENT_ID',
+          redirect: 'VITE_OIDC_REDIRECT_URI (callback URL)',
+          logoutRedirect: 'VITE_OIDC_LOGOUT_REDIRECT_URI (optional)',
+          scopes: 'VITE_OIDC_SCOPES (default: openid profile email)'
+        },
+        actions: { loginOidc: 'Login with OpenID', logout: 'Logout' }
+      },
+      authCallback: {
+        title: 'Completing login...',
+        desc: 'Please wait while we finish the authentication flow.'
+      },
       api: {
         title: 'API Integration & Data Processing',
         subtitle: 'Learn HTTP client wrapper, error handling and caching',
@@ -292,7 +429,52 @@ const messages = {
       testing: {
         title: 'Testing & Debugging Training',
         subtitle: 'Component testing, debugging tips and performance',
-        unit: { title: 'Unit Testing' },
+        unit: {
+          title: 'Unit Testing',
+          desc: 'Learn how to write and run unit tests for Vue components',
+          calculator: { title: 'Calculator Component (Testing Demo)', labelA: 'Number A', labelB: 'Number B', resultLabel: 'Result:' },
+          actions: { reset: 'Reset' },
+          cases: { title: 'Example Test Cases', passed: { title: 'Passing Tests' }, edge: { title: 'Edge Case Tests' } },
+          codeSample: { title: 'Test Code Sample' },
+          runner: { title: 'Test Runner', runStatus: { running: 'Running...', ready: 'Run Tests' }, clearResults: 'Clear Results', results: { title: 'Results', passed: 'Passed:', failed: 'Failed:' } }
+        },
+        componentDemo: {
+          title: 'Component Testing Demo',
+          desc: 'Test props, emits, interactions and accessibility',
+          testedTitle: 'Tested Component',
+          interactionsTitle: 'Interaction Area',
+          labelInput: 'Button label',
+          disableToggle: 'Disable button',
+          simulateClick: 'Simulate Click',
+          reset: 'Reset',
+          eventsTitle: 'Event Logs',
+          noEvents: 'No events',
+          clicks: 'Clicks: '
+        },
+        debugDemo: {
+          title: 'Debugging Demo',
+          desc: 'Logs, error capture and debugging approach',
+          logInfo: 'Log Info',
+          logWarn: 'Log Warn',
+          triggerError: 'Trigger Error',
+          errorCaptureTitle: 'Error Capture Demo',
+          childErrorButton: 'Child triggers error',
+          logsTitle: 'Debug Logs',
+          noLogs: 'No logs',
+          clearLogs: 'Clear Logs'
+        },
+        performanceDemo: {
+          title: 'Performance & Optimization Demo',
+          desc: 'Render stress test and simple optimization comparison',
+          countLabel: 'Items to render',
+          optimizedToggle: 'Enable optimization',
+          startRender: 'Start Render',
+          clearList: 'Clear List',
+          duration: 'Duration: ',
+          listTitle: 'List',
+          currentRender: 'Current Render',
+          optimizedSnapshot: 'Optimized Snapshot'
+        },
         component: { title: 'Component Testing' },
         debug: { title: 'Debugging Tips' },
         performance: { title: 'Performance & Optimization' },
@@ -335,16 +517,99 @@ const messages = {
             vueDocs: 'Vue Docs',
             a11yWcag: 'WCAG (Web Content Accessibility Guidelines)'
           }
+        },
+        examples: {
+          form: {
+            labels: { username: 'Username', email: 'Email', age: 'Age' },
+            buttons: { submit: 'Submit', submitting: 'Submitting...', reset: 'Reset' },
+            submittedTitle: 'Submitted Data:',
+            alerts: { submitSuccess: 'Form submitted successfully!' },
+            errors: {
+              usernameRequired: 'Username is required',
+              usernameMinLen: 'Username must be at least 3 characters',
+              emailRequired: 'Email is required',
+              emailInvalid: 'Please enter a valid email address',
+              ageRequired: 'Age is required',
+              ageRange: 'Age must be between 1 and 120'
+            }
+          },
+          input: {
+            basic: { label: 'Basic Input', placeholder: 'Enter text...', valueLabel: 'Value:' },
+            validated: { label: 'Validated Input', placeholder: 'Enter email...', ok: 'Email looks good' },
+            textarea: { label: 'Textarea', placeholder: 'Enter multi-line text...', countLabel: 'Characters:' },
+            select: {
+              label: 'Select', placeholder: 'Please choose...', options: { one: 'Option 1', two: 'Option 2', three: 'Option 3' }, none: 'None',
+              selectedLabel: 'Selected:'
+            },
+            errors: { emailInvalid: 'Please enter a valid email address' }
+          },
+          search: {
+            placeholder: 'Search...',
+            statusLabel: 'Status:',
+            resultsLabel: 'Results:',
+            noResults: 'No results found',
+            state: { searching: 'Searching...', done: 'Done', waiting: 'Waiting' },
+            mock: { resultSuffix: 'Result' }
+          },
+          parentChild: {
+            parentTitle: 'Parent Component',
+            sendLabel: 'Send message to child',
+            receivedMessage: 'Message from child:',
+            childCountLabel: 'Child count:',
+            sendButton: 'Send to child',
+            none: 'None',
+            defaultMessageToChild: 'Hello, child!'
+          },
+          child: {
+            title: 'Child Component',
+            receivedMessage: 'Message from parent:',
+            receivedCount: 'Count from parent:',
+            replyLabel: 'Reply to parent',
+            replyButton: 'Reply to parent',
+            updateCount: 'Update count',
+            localCountLabel: 'Local state - Local count:',
+            increaseLocal: 'Increase local count',
+            defaultReply: 'Hello, parent!'
+          },
+          slot: {
+            defaultTitle: 'Default Slot',
+            cardTitle: 'Card Title',
+            defaultContent: 'This content is inserted via the default slot.',
+            namedTitle: 'Named Slots',
+            namedHeader: 'Header Content',
+            namedBody: 'Main Content Area',
+            namedFooter: 'Footer Content',
+            scopedTitle: 'Scoped Slot',
+            dynamicTitle: 'Dynamic Slot',
+            selectLabel: 'Choose slot position',
+            options: { header: 'Header', content: 'Content', sidebar: 'Sidebar' },
+            dynamicContent: 'Content inserted into the {slot} slot'
+          }
         }
       },
       router: {
         title: 'Routing & Navigation Training',
         subtitle: 'Advanced Vue Router features and guards',
         basic: { title: 'Basic Routing' },
-        dynamic: { title: 'Dynamic Routing' },
+        dynamic: {
+          title: 'Dynamic Routing Demo',
+          desc: 'Click tasks below to see dynamic routes',
+          tasks: { title: 'Task List', status: { completed: 'Completed', inProgress: 'In Progress' }, manualTitle: 'Enter Task ID', inputPlaceholder: 'Task ID', go: 'Go' },
+          help: { title: 'Dynamic Routing Notes', items: { param: 'Path /task/:id has :id as a dynamic param', getParam: 'Access via $route.params.id', props: 'Pass as props to components', multi: 'Support multiple params: /user/:userId/post/:postId' } },
+          info: { title: 'Current Route Params', taskId: 'Task ID:', fullPath: 'Full Path:' }
+        },
         nested: { title: 'Nested Routing' },
         guards: { title: 'Navigation Guards' },
-        programmatic: { title: 'Programmatic Navigation' },
+        programmatic: {
+          title: 'Programmatic Navigation',
+          desc: 'Navigate via code',
+          basic: { title: 'Basic Navigation', toHome: 'Go to Home', toTasks: 'Go to Tasks', toTraining: 'Go to Training', back: 'Go Back' },
+          params: { title: 'Navigation with Params', taskIdPlaceholder: 'Task ID', viewTask: 'View Task', queryPlaceholder: 'Query', search: 'Search' },
+          advanced: { title: 'Advanced Navigation', replace: 'Replace current history', withQuery: 'With query params' },
+          history: { title: 'History Operations', forward: 'Forward', back: 'Back', goToStep3: 'Go to step 3' },
+          help: { title: 'Programmatic Navigation Notes', items: { push: 'Add new history entry', replace: 'Replace current entry', back: 'Go back one step', go: 'Move N steps in history' } },
+          info: { title: 'Current Navigation Info', currentPath: 'Current Path:', historyLength: 'History Length:', canBack: 'Can Back:', canForward: 'Can Forward:' }
+        },
         design: {
           title: 'Page Design & Best Practices',
           description: 'Design route hierarchy, naming and guards to improve maintainability.',
@@ -365,10 +630,48 @@ const messages = {
       state: {
         title: 'State Management Training',
         subtitle: 'Using Pinia for Vue.js state management',
-        basic: { title: 'Basic State Management' },
-        gettersActions: { title: 'Getters & Actions' },
+        basic: {
+          title: 'Basic State Management',
+          counterTitle: 'Counter State',
+          double: 'Double:',
+          triple: 'Triple:',
+          info: { title: 'State Info', labels: { storeId: 'Store ID:', name: 'Counter Name:', count: 'Current:', double: 'Double:' } },
+          counter: { reset: 'Reset' },
+          advanced: { toggle: 'Show/Hide Advanced', title: 'Advanced Actions', amountPlaceholder: 'Custom amount', increment: 'Increment', namePlaceholder: 'Custom name', updateName: 'Update name' }
+        },
+        gettersActions: {
+          title: 'Getters & Actions',
+          totals: { title: 'Total Users' },
+          avgAge: { title: 'Average Age' },
+          current: { title: 'Current User', labels: { name: 'Name:', email: 'Email:', age: 'Age:' } },
+          form: { namePlaceholder: 'Name', emailPlaceholder: 'Email', agePlaceholder: 'Age' },
+          actions: { add: 'Add User' },
+          list: { title: 'User List', ageSuffix: 'y', delete: 'Delete' },
+          logs: { title: 'Operation Logs', addUser: 'Add User: ', deleteUser: 'Delete User: ' }
+        },
         modules: { title: 'Modular State' },
-        persistence: { title: 'State Persistence' },
+        module: {
+          counter: { title: 'Counter Module', controlTitle: 'Control Counter', reset: 'Reset' },
+          user: { title: 'User Module', ageSuffix: 'y', controlTitle: 'Control Users', add: 'Add User', delete: 'Delete User' },
+          cross: { title: 'Cross-module Interaction', counterAffectsUsers: 'Counter affects user count', userCountLabel: 'users', userAgeAffectsCounter: 'Average age affects counter' },
+          logs: { title: 'Cross-module Logs', counterChanged: 'Counter changed: {old} → {new}', autoAddUser: 'Auto add user: {name}', userCountChanged: 'User count changed: {old} → {new}' },
+          advanced: { toggle: 'Show/Hide Advanced', title: 'Advanced Modular Features', incrementLabel: 'Counter Increment', apply: 'Apply', ageLabel: 'User Age', add: 'Add' },
+          sampleNames: { zhKids: ['Xiao Ming','Xiao Hong','Xiao Gang','Xiao Li','Xiao Hua'], zhAdults: ['Zhang San','Li Si','Wang Wu','Zhao Liu','Qian Qi'], generic: ['New User','Test User','Sample User'] }
+        },
+        persistence: {
+          title: 'Theme Settings',
+          currentThemeLabel: 'Current Theme:',
+          theme: { dark: 'Dark', light: 'Light' },
+          toggle: 'Toggle Theme',
+          reset: 'Reset Theme',
+          preview: { title: 'Theme Preview', desc: 'Preview area changes with theme.', checkbox: 'Sample Checkbox', primaryButton: 'Primary Button', secondaryButton: 'Secondary Button' },
+          colors: { title: 'Color Settings', primaryLabel: 'Primary Color:', apply: 'Apply' },
+          info: {
+            title: 'Persistence Info', autoSave: 'Theme settings are saved to local storage', persist: 'Settings persist after refresh', storageKeysLabel: 'Stored keys:', clearStorage: 'Clear Storage', toggleStorageInfo: 'Show/Hide Storage Info', detailsTitle: 'Storage Details',
+            details: { darkMode: 'Dark Mode:', primaryColor: 'Primary Color:', storageState: 'Storage State:', stored: 'Stored', notStored: 'Not Stored' }
+          },
+          alert: { cleared: 'Theme storage cleared. Defaults restored after refresh.' }
+        },
         design: {
           title: 'Page Design & Best Practices',
           description: 'Clear store boundaries and types make state manageable.',
@@ -431,8 +734,11 @@ const messages = {
       home: 'Accueil',
       training: 'Formation',
       tasks: 'Tâches',
-      language: 'Langue'
+      language: 'Langue',
+      login: 'Se connecter',
+      logout: 'Se déconnecter'
     },
+    common: { yes: 'Oui', no: 'Non' },
     training: {
       title: 'Modules de formation',
       subtitle: 'Choisissez les compétences Vue.js à apprendre',
@@ -440,6 +746,7 @@ const messages = {
       statusNotStarted: 'Non commencé',
       start: 'Commencer',
       completed: 'Terminé',
+      difficulty: { beginner: 'Débutant', intermediate: 'Intermédiaire', advanced: 'Avancé' },
       modules: {
         components: { title: 'Bases des composants', desc: 'Props, emits et slots — concepts clés', duration: '2 h' },
         composition: { title: 'Composition API', desc: 'ref, reactive, computed et APIs clés', duration: '3 h' },
@@ -473,6 +780,22 @@ const messages = {
       }
     },
     pages: {
+      login: {
+        title: 'Connexion',
+        desc: 'Se connecter avec OpenID. Cette page utilise des variables d’environnement.',
+        vars: {
+          issuer: 'VITE_OIDC_ISSUER',
+          clientId: 'VITE_OIDC_CLIENT_ID',
+          redirect: 'VITE_OIDC_REDIRECT_URI (URL de rappel)',
+          logoutRedirect: 'VITE_OIDC_LOGOUT_REDIRECT_URI (optionnel)',
+          scopes: 'VITE_OIDC_SCOPES (par défaut : openid profile email)'
+        },
+        actions: { loginOidc: 'Se connecter avec OpenID', logout: 'Se déconnecter' }
+      },
+      authCallback: {
+        title: 'Finalisation de la connexion...',
+        desc: 'Veuillez patienter pendant la fin du flux d’authentification.'
+      },
       api: {
         title: 'Formation intégration API et traitement des données',
         subtitle: 'Client HTTP, gestion des erreurs et mise en cache',
@@ -501,7 +824,52 @@ const messages = {
       testing: {
         title: 'Formation tests et débogage',
         subtitle: 'Tests de composants, astuces de débogage et performance',
-        unit: { title: 'Tests unitaires' },
+        unit: {
+          title: 'Tests unitaires',
+          desc: 'Apprendre à écrire et exécuter des tests unitaires pour les composants Vue',
+          calculator: { title: 'Composant calculatrice (démo de test)', labelA: 'Nombre A', labelB: 'Nombre B', resultLabel: 'Résultat :' },
+          actions: { reset: 'Réinitialiser' },
+          cases: { title: 'Exemples de cas de test', passed: { title: 'Tests réussis' }, edge: { title: 'Tests de cas limites' } },
+          codeSample: { title: 'Exemple de code de test' },
+          runner: { title: 'Exécuteur de tests', runStatus: { running: 'En cours...', ready: 'Lancer les tests' }, clearResults: 'Effacer les résultats', results: { title: 'Résultats', passed: 'Réussis :', failed: 'Échoués :' } }
+        },
+        componentDemo: {
+          title: 'Démo de test de composant',
+          desc: 'Tester props, emits, interactions et accessibilité',
+          testedTitle: 'Composant testé',
+          interactionsTitle: 'Zone d’interaction',
+          labelInput: 'Libellé du bouton',
+          disableToggle: 'Désactiver le bouton',
+          simulateClick: 'Simuler le clic',
+          reset: 'Réinitialiser',
+          eventsTitle: 'Journal des événements',
+          noEvents: 'Aucun événement',
+          clicks: 'Clics : '
+        },
+        debugDemo: {
+          title: 'Démo de débogage',
+          desc: 'Journaux, capture d’erreurs et approche de débogage',
+          logInfo: 'Journal Info',
+          logWarn: 'Journal Avertissement',
+          triggerError: 'Déclencher une erreur',
+          errorCaptureTitle: 'Démo de capture d’erreur',
+          childErrorButton: 'L’enfant déclenche une erreur',
+          logsTitle: 'Journaux de débogage',
+          noLogs: 'Aucun journal',
+          clearLogs: 'Effacer les journaux'
+        },
+        performanceDemo: {
+          title: 'Démo de performance et optimisation',
+          desc: 'Test de contrainte de rendu et comparaison d’optimisation',
+          countLabel: 'Nombre d’éléments',
+          optimizedToggle: 'Activer l’optimisation',
+          startRender: 'Commencer le rendu',
+          clearList: 'Effacer la liste',
+          duration: 'Durée : ',
+          listTitle: 'Liste',
+          currentRender: 'Rendu actuel',
+          optimizedSnapshot: 'Instantané optimisé'
+        },
         component: { title: 'Tests de composants' },
         debug: { title: 'Astuces de débogage' },
         performance: { title: 'Performance et optimisation' }
@@ -512,7 +880,75 @@ const messages = {
         basicExamples: { title: 'Exemples de base', counter: { title: 'Composant compteur' }, input: { title: 'Composant saisie' } },
         advancedExamples: { title: 'Exemples avancés', search: { title: 'Composant recherche' }, form: { title: 'Composant validation de formulaire' } },
         communication: { title: 'Communication entre composants' },
-        slot: { title: 'Exemples de slots' }
+        slot: { title: 'Exemples de slots' },
+        examples: {
+          form: {
+            labels: { username: 'Nom d’utilisateur', email: 'E-mail', age: 'Âge' },
+            buttons: { submit: 'Envoyer', submitting: 'Envoi...', reset: 'Réinitialiser' },
+            submittedTitle: 'Données envoyées :',
+            alerts: { submitSuccess: 'Formulaire envoyé avec succès !' },
+            errors: {
+              usernameRequired: 'Le nom d’utilisateur est requis',
+              usernameMinLen: 'Le nom d’utilisateur doit comporter au moins 3 caractères',
+              emailRequired: 'L’e-mail est requis',
+              emailInvalid: 'Veuillez saisir une adresse e-mail valide',
+              ageRequired: 'L’âge est requis',
+              ageRange: 'L’âge doit être entre 1 et 120'
+            }
+          },
+          input: {
+            basic: { label: 'Saisie basique', placeholder: 'Saisir du texte...', valueLabel: 'Valeur :' },
+            validated: { label: 'Saisie validée', placeholder: 'Saisir l’e-mail...', ok: 'L’e-mail semble correct' },
+            textarea: { label: 'Zone de texte', placeholder: 'Saisir un texte multi-lignes...', countLabel: 'Caractères :' },
+            select: {
+              label: 'Sélecteur', placeholder: 'Veuillez choisir...', options: { one: 'Option 1', two: 'Option 2', three: 'Option 3' }, none: 'Aucun',
+              selectedLabel: 'Sélectionné :'
+            },
+            errors: { emailInvalid: 'Veuillez saisir une adresse e-mail valide' }
+          },
+          search: {
+            placeholder: 'Rechercher...',
+            statusLabel: 'Statut :',
+            resultsLabel: 'Résultats :',
+            noResults: 'Aucun résultat trouvé',
+            state: { searching: 'Recherche...', done: 'Terminé', waiting: 'En attente' },
+            mock: { resultSuffix: 'Résultat' }
+          },
+          parentChild: {
+            parentTitle: 'Composant parent',
+            sendLabel: 'Envoyer un message au composant enfant',
+            receivedMessage: 'Message reçu de l’enfant :',
+            childCountLabel: 'Compteur enfant :',
+            sendButton: 'Envoyer à l’enfant',
+            none: 'Aucun',
+            defaultMessageToChild: 'Bonjour, enfant !'
+          },
+          child: {
+            title: 'Composant enfant',
+            receivedMessage: 'Message reçu du parent :',
+            receivedCount: 'Compteur reçu du parent :',
+            replyLabel: 'Répondre au parent',
+            replyButton: 'Répondre au parent',
+            updateCount: 'Mettre à jour le compteur',
+            localCountLabel: 'État local - Compteur local :',
+            increaseLocal: 'Augmenter le compteur local',
+            defaultReply: 'Bonjour, parent !'
+          },
+          slot: {
+            defaultTitle: 'Slot par défaut',
+            cardTitle: 'Titre de la carte',
+            defaultContent: 'Contenu inséré via le slot par défaut.',
+            namedTitle: 'Slots nommés',
+            namedHeader: 'Contenu d’en-tête',
+            namedBody: 'Zone de contenu principal',
+            namedFooter: 'Contenu de pied de page',
+            scopedTitle: 'Slot à portée',
+            dynamicTitle: 'Slot dynamique',
+            selectLabel: 'Choisir la position du slot',
+            options: { header: 'En-tête', content: 'Contenu', sidebar: 'Barre latérale' },
+            dynamicContent: 'Contenu inséré dans le slot {slot}'
+          }
+        }
       },
       router: {
         title: 'Formation routage et navigation',

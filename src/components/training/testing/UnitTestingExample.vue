@@ -1,18 +1,18 @@
 <template>
   <div class="space-y-6">
     <div class="p-4 bg-blue-50 rounded-lg">
-      <h3 class="text-lg font-semibold text-blue-900 mb-2">单元测试演示</h3>
-      <p class="text-sm text-blue-800">学习如何编写和运行Vue.js组件的单元测试</p>
+      <h3 class="text-lg font-semibold text-blue-900 mb-2">{{ $t('pages.testing.unit.title') }}</h3>
+      <p class="text-sm text-blue-800">{{ $t('pages.testing.unit.desc') }}</p>
     </div>
 
     <!-- 计算器组件 -->
     <div class="bg-white border rounded-lg p-6">
-      <h4 class="text-lg font-medium text-gray-900 mb-4">计算器组件（测试示例）</h4>
+      <h4 class="text-lg font-medium text-gray-900 mb-4">{{ $t('pages.testing.unit.calculator.title') }}</h4>
       
       <div class="space-y-4">
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">数字 A</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('pages.testing.unit.calculator.labelA') }}</label>
             <input
               v-model.number="calculator.a"
               type="number"
@@ -21,7 +21,7 @@
             >
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">数字 B</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('pages.testing.unit.calculator.labelB') }}</label>
             <input
               v-model.number="calculator.b"
               type="number"
@@ -64,7 +64,7 @@
 
         <div class="p-4 bg-gray-50 rounded-lg">
           <div class="flex justify-between items-center">
-            <span class="text-gray-700">结果:</span>
+            <span class="text-gray-700">{{ $t('pages.testing.unit.calculator.resultLabel') }}</span>
             <span 
               class="text-2xl font-bold text-gray-900"
               data-testid="calculator-result"
@@ -82,18 +82,18 @@
           class="w-full px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
           data-testid="calculator-reset"
         >
-          重置
+          {{ $t('pages.testing.unit.actions.reset') }}
         </button>
       </div>
     </div>
 
     <!-- 测试用例展示 -->
     <div class="bg-white border rounded-lg p-6">
-      <h4 class="text-lg font-medium text-gray-900 mb-4">测试用例示例</h4>
+      <h4 class="text-lg font-medium text-gray-900 mb-4">{{ $t('pages.testing.unit.cases.title') }}</h4>
       
       <div class="space-y-4">
         <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
-          <h5 class="font-medium text-green-900 mb-2">✅ 通过的测试</h5>
+          <h5 class="font-medium text-green-900 mb-2">✅ {{ $t('pages.testing.unit.cases.passed.title') }}</h5>
           <ul class="text-sm text-green-800 space-y-1">
             <li>• 加法运算: 2 + 3 = 5</li>
             <li>• 减法运算: 10 - 4 = 6</li>
@@ -104,7 +104,7 @@
         </div>
 
         <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <h5 class="font-medium text-red-900 mb-2">❌ 边界情况测试</h5>
+          <h5 class="font-medium text-red-900 mb-2">❌ {{ $t('pages.testing.unit.cases.edge.title') }}</h5>
           <ul class="text-sm text-red-800 space-y-1">
             <li>• 除以零: 应该显示错误信息</li>
             <li>• 空值处理: 应该默认为0</li>
@@ -114,7 +114,7 @@
         </div>
 
         <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h5 class="font-medium text-blue-900 mb-2">🔧 测试代码示例</h5>
+          <h5 class="font-medium text-blue-900 mb-2">🔧 {{ $t('pages.testing.unit.codeSample.title') }}</h5>
           <pre class="text-xs bg-gray-100 p-3 rounded overflow-x-auto"><code>// 计算器组件测试示例
 describe('Calculator', () => {
   it('应该正确执行加法运算', () => {
@@ -139,7 +139,7 @@ describe('Calculator', () => {
 
     <!-- 测试运行器 -->
     <div class="bg-white border rounded-lg p-6">
-      <h4 class="text-lg font-medium text-gray-900 mb-4">测试运行器</h4>
+      <h4 class="text-lg font-medium text-gray-900 mb-4">{{ $t('pages.testing.unit.runner.title') }}</h4>
       
       <div class="space-y-4">
         <div class="flex space-x-4">
@@ -148,22 +148,22 @@ describe('Calculator', () => {
             :disabled="testRunner.running"
             class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
           >
-            {{ testRunner.running ? '运行中...' : '运行测试' }}
+            {{ testRunner.running ? $t('pages.testing.unit.runner.runStatus.running') : $t('pages.testing.unit.runner.runStatus.ready') }}
           </button>
           <button
             @click="clearTestResults"
             class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
           >
-            清除结果
+            {{ $t('pages.testing.unit.runner.clearResults') }}
           </button>
         </div>
 
         <div v-if="testRunner.results.length > 0" class="space-y-2">
           <div class="flex justify-between items-center text-sm text-gray-600">
-            <span>测试结果 ({{ testRunner.results.length }} 个测试)</span>
+            <span>{{ $t('pages.testing.unit.runner.results.title') }} ({{ testRunner.results.length }})</span>
             <span>
-              通过: <span class="text-green-600">{{ passedTests }}</span> |
-              失败: <span class="text-red-600">{{ failedTests }}</span>
+              {{ $t('pages.testing.unit.runner.results.passed') }} <span class="text-green-600">{{ passedTests }}</span> |
+              {{ $t('pages.testing.unit.runner.results.failed') }} <span class="text-red-600">{{ failedTests }}</span>
             </span>
           </div>
 

@@ -43,15 +43,19 @@
               @click="goLogin"
               class="ml-4 px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
             >
-              登录
+              {{ $t('nav.login') }}
             </button>
             <button
               v-else
               @click="logout"
               class="ml-4 px-3 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 text-sm"
             >
-              退出
+              {{ $t('nav.logout') }}
             </button>
+            <div v-if="isAuthenticated" class="ml-2 flex items-center text-sm text-gray-700">
+              <span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+              <span class="font-medium">{{ displayName }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -80,7 +84,8 @@ const onLocaleChange = () => {
 
 const router = useRouter()
 const auth = useAuthStore()
-const { isAuthenticated } = storeToRefs(auth)
+auth.init()
+const { isAuthenticated, displayName } = storeToRefs(auth)
 const goLogin = () => router.push('/login')
 const logout = () => auth.logout()
 </script>

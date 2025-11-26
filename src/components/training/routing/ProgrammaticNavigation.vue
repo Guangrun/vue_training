@@ -1,19 +1,19 @@
 <template>
   <div class="space-y-6">
     <div class="p-4 bg-blue-50 rounded-lg">
-      <h3 class="text-lg font-semibold text-blue-900 mb-2">程序化导航演示</h3>
-      <p class="text-sm text-blue-800">使用编程方式进行页面跳转</p>
+      <h3 class="text-lg font-semibold text-blue-900 mb-2">{{ $t('pages.router.programmatic.title') }}</h3>
+      <p class="text-sm text-blue-800">{{ $t('pages.router.programmatic.desc') }}</p>
     </div>
 
     <div class="space-y-4">
-      <h4 class="font-medium text-gray-900">基本导航</h4>
+      <h4 class="font-medium text-gray-900">{{ $t('pages.router.programmatic.basic.title') }}</h4>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <button
           @click="goHome"
           class="p-3 bg-white border rounded-md hover:bg-gray-50 text-left transition-colors"
         >
-          <div class="font-medium text-gray-900">跳转到首页</div>
+          <div class="font-medium text-gray-900">{{ $t('pages.router.programmatic.basic.toHome') }}</div>
           <div class="text-sm text-gray-600">router.push('/')</div>
         </button>
 
@@ -21,7 +21,7 @@
           @click="goTasks"
           class="p-3 bg-white border rounded-md hover:bg-gray-50 text-left transition-colors"
         >
-          <div class="font-medium text-gray-900">跳转到任务</div>
+          <div class="font-medium text-gray-900">{{ $t('pages.router.programmatic.basic.toTasks') }}</div>
           <div class="text-sm text-gray-600">router.push('/tasks')</div>
         </button>
 
@@ -29,7 +29,7 @@
           @click="goTraining"
           class="p-3 bg-white border rounded-md hover:bg-gray-50 text-left transition-colors"
         >
-          <div class="font-medium text-gray-900">跳转到培训</div>
+          <div class="font-medium text-gray-900">{{ $t('pages.router.programmatic.basic.toTraining') }}</div>
           <div class="text-sm text-gray-600">router.push('/training')</div>
         </button>
 
@@ -37,28 +37,28 @@
           @click="goBack"
           class="p-3 bg-white border rounded-md hover:bg-gray-50 text-left transition-colors"
         >
-          <div class="font-medium text-gray-900">返回上一页</div>
+          <div class="font-medium text-gray-900">{{ $t('pages.router.programmatic.basic.back') }}</div>
           <div class="text-sm text-gray-600">router.back()</div>
         </button>
       </div>
     </div>
 
     <div class="space-y-4">
-      <h4 class="font-medium text-gray-900">带参数的导航</h4>
+      <h4 class="font-medium text-gray-900">{{ $t('pages.router.programmatic.params.title') }}</h4>
       
       <div class="space-y-3">
         <div class="flex space-x-3">
           <input
             v-model.number="taskId"
             type="number"
-            placeholder="任务ID"
+            :placeholder="$t('pages.router.programmatic.params.taskIdPlaceholder')"
             class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
           <button
             @click="goToTask"
             class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           >
-            查看任务
+            {{ $t('pages.router.programmatic.params.viewTask') }}
           </button>
         </div>
 
@@ -66,28 +66,28 @@
           <input
             v-model="queryParam"
             type="text"
-            placeholder="查询参数"
+            :placeholder="$t('pages.router.programmatic.params.queryPlaceholder')"
             class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
           <button
             @click="goToSearch"
             class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
           >
-            搜索
+            {{ $t('pages.router.programmatic.params.search') }}
           </button>
         </div>
       </div>
     </div>
 
     <div class="space-y-4">
-      <h4 class="font-medium text-gray-900">高级导航</h4>
+      <h4 class="font-medium text-gray-900">{{ $t('pages.router.programmatic.advanced.title') }}</h4>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <button
           @click="goWithReplace"
           class="p-3 bg-white border rounded-md hover:bg-gray-50 text-left transition-colors"
         >
-          <div class="font-medium text-gray-900">替换当前历史记录</div>
+          <div class="font-medium text-gray-900">{{ $t('pages.router.programmatic.advanced.replace') }}</div>
           <div class="text-sm text-gray-600">router.replace('/training')</div>
         </button>
 
@@ -95,54 +95,54 @@
           @click="goWithQuery"
           class="p-3 bg-white border rounded-md hover:bg-gray-50 text-left transition-colors"
         >
-          <div class="font-medium text-gray-900">带查询参数</div>
+          <div class="font-medium text-gray-900">{{ $t('pages.router.programmatic.advanced.withQuery') }}</div>
           <div class="text-sm text-gray-600">router.push({ query: {...} })</div>
         </button>
       </div>
     </div>
 
     <div class="space-y-4">
-      <h4 class="font-medium text-gray-900">导航历史操作</h4>
+      <h4 class="font-medium text-gray-900">{{ $t('pages.router.programmatic.history.title') }}</h4>
       
       <div class="flex space-x-3">
         <button
           @click="goForward"
           class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
         >
-          前进
+          {{ $t('pages.router.programmatic.history.forward') }}
         </button>
         <button
           @click="goBack"
           class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
         >
-          后退
+          {{ $t('pages.router.programmatic.history.back') }}
         </button>
         <button
           @click="goHistory"
           class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
         >
-          跳转到第3步
+          {{ $t('pages.router.programmatic.history.goToStep3') }}
         </button>
       </div>
     </div>
 
     <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
-      <h4 class="font-medium text-green-900 mb-2">程序化导航说明</h4>
+      <h4 class="font-medium text-green-900 mb-2">{{ $t('pages.router.programmatic.help.title') }}</h4>
       <ul class="text-sm text-green-800 space-y-1">
-        <li>• <strong>push:</strong> 添加新的历史记录</li>
-        <li>• <strong>replace:</strong> 替换当前历史记录</li>
-        <li>• <strong>back:</strong> 返回上一页</li>
-        <li>• <strong>go:</strong> 在历史记录中前进/后退指定步数</li>
+        <li>• <strong>push:</strong> {{ $t('pages.router.programmatic.help.items.push') }}</li>
+        <li>• <strong>replace:</strong> {{ $t('pages.router.programmatic.help.items.replace') }}</li>
+        <li>• <strong>back:</strong> {{ $t('pages.router.programmatic.help.items.back') }}</li>
+        <li>• <strong>go:</strong> {{ $t('pages.router.programmatic.help.items.go') }}</li>
       </ul>
     </div>
 
     <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-      <h4 class="font-medium text-yellow-900 mb-2">当前导航历史</h4>
+      <h4 class="font-medium text-yellow-900 mb-2">{{ $t('pages.router.programmatic.info.title') }}</h4>
       <div class="text-sm text-yellow-800 space-y-1">
-        <p>当前路径: {{ $route.path }}</p>
-        <p>历史记录数: {{ historyLength }}</p>
-        <p>可以后退: {{ canGoBack ? '是' : '否' }}</p>
-        <p>可以前进: {{ canGoForward ? '是' : '否' }}</p>
+        <p>{{ $t('pages.router.programmatic.info.currentPath') }} {{ $route.path }}</p>
+        <p>{{ $t('pages.router.programmatic.info.historyLength') }} {{ historyLength }}</p>
+        <p>{{ $t('pages.router.programmatic.info.canBack') }} {{ canGoBack ? $t('common.yes') : $t('common.no') }}</p>
+        <p>{{ $t('pages.router.programmatic.info.canForward') }} {{ canGoForward ? $t('common.yes') : $t('common.no') }}</p>
       </div>
     </div>
   </div>

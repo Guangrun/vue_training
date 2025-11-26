@@ -22,9 +22,9 @@
             {{ task.description }}
           </p>
           <div class="flex items-center space-x-4 mt-2 text-xs text-gray-500">
-            <span>创建于: {{ formatDate(task.createdAt) }}</span>
+            <span>{{ $t('pages.taskDetail.meta.createdAt') }} {{ formatDate(task.createdAt) }}</span>
             <span v-if="task.dueDate" :class="{ 'text-red-600': isOverdue }">
-              截止: {{ formatDate(task.dueDate) }}
+              {{ $t('pages.taskDetail.meta.dueDate') }} {{ formatDate(task.dueDate) }}
             </span>
           </div>
         </div>
@@ -69,6 +69,6 @@ const isOverdue = computed(() => {
 })
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('zh-CN')
+  return new Date(dateString).toLocaleDateString(undefined)
 }
 </script>

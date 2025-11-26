@@ -1,14 +1,14 @@
 <template>
   <div class="space-y-6">
     <div class="text-center p-4 bg-gray-50 rounded-lg">
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">主题设置</h3>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $t('pages.state.persistence.title') }}</h3>
       <div class="flex items-center justify-center space-x-4">
-        <span class="text-sm text-gray-600">当前主题:</span>
+        <span class="text-sm text-gray-600">{{ $t('pages.state.persistence.currentThemeLabel') }}</span>
         <span 
           class="px-3 py-1 rounded-full text-sm font-medium"
           :class="themeStore.isDark ? 'bg-gray-800 text-white' : 'bg-blue-100 text-blue-800'"
         >
-          {{ themeStore.isDark ? '深色' : '浅色' }}
+          {{ themeStore.isDark ? $t('pages.state.persistence.theme.dark') : $t('pages.state.persistence.theme.light') }}
         </span>
       </div>
     </div>
@@ -18,43 +18,43 @@
         @click="themeStore.toggleTheme"
         class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
       >
-        切换主题
+        {{ $t('pages.state.persistence.toggle') }}
       </button>
       
       <button
         @click="resetTheme"
         class="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
       >
-        重置主题
+        {{ $t('pages.state.persistence.reset') }}
       </button>
     </div>
 
     <div class="p-4 border rounded-lg" :class="themeStore.themeClass">
-      <h4 class="font-medium mb-3">主题预览区域</h4>
-      <p class="text-sm mb-3">这是一个主题预览区域，会随主题变化而改变外观。</p>
+      <h4 class="font-medium mb-3">{{ $t('pages.state.persistence.preview.title') }}</h4>
+      <p class="text-sm mb-3">{{ $t('pages.state.persistence.preview.desc') }}</p>
       
       <div class="space-y-2">
         <div class="flex items-center space-x-2">
           <input type="checkbox" class="rounded">
-          <span class="text-sm">示例复选框</span>
+          <span class="text-sm">{{ $t('pages.state.persistence.preview.checkbox') }}</span>
         </div>
         
         <div class="flex space-x-2">
           <button class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
-            主要按钮
+            {{ $t('pages.state.persistence.preview.primaryButton') }}
           </button>
           <button class="px-3 py-2 border rounded text-sm hover:bg-gray-50">
-            次要按钮
+            {{ $t('pages.state.persistence.preview.secondaryButton') }}
           </button>
         </div>
       </div>
     </div>
 
     <div class="p-4 bg-white border rounded-lg">
-      <h4 class="font-medium text-gray-900 mb-3">颜色设置</h4>
+      <h4 class="font-medium text-gray-900 mb-3">{{ $t('pages.state.persistence.colors.title') }}</h4>
       
       <div class="flex items-center space-x-4">
-        <label class="text-sm text-gray-600">主色调:</label>
+        <label class="text-sm text-gray-600">{{ $t('pages.state.persistence.colors.primaryLabel') }}</label>
         <input
           v-model="primaryColor"
           type="color"
@@ -69,7 +69,7 @@
           @click="applyColor"
           class="px-4 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
         >
-          应用
+          {{ $t('pages.state.persistence.colors.apply') }}
         </button>
       </div>
       
@@ -86,11 +86,11 @@
     </div>
 
     <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-      <h4 class="font-medium text-yellow-900 mb-2">持久化信息</h4>
+      <h4 class="font-medium text-yellow-900 mb-2">{{ $t('pages.state.persistence.info.title') }}</h4>
       <div class="text-sm text-yellow-800 space-y-1">
-        <p>主题设置会自动保存到本地存储</p>
-        <p>刷新页面后设置会保留</p>
-        <p>当前存储的键值:</p>
+        <p>{{ $t('pages.state.persistence.info.autoSave') }}</p>
+        <p>{{ $t('pages.state.persistence.info.persist') }}</p>
+        <p>{{ $t('pages.state.persistence.info.storageKeysLabel') }}</p>
         <code class="text-xs bg-yellow-100 px-2 py-1 rounded">theme-store</code>
       </div>
     </div>
@@ -100,23 +100,23 @@
         @click="clearStorage"
         class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
       >
-        清除存储
+        {{ $t('pages.state.persistence.info.clearStorage') }}
       </button>
       
       <button
         @click="showStorageInfo = !showStorageInfo"
         class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
       >
-        {{ showStorageInfo ? '隐藏' : '显示' }}存储信息
+        {{ $t('pages.state.persistence.info.toggleStorageInfo') }}
       </button>
     </div>
 
     <div v-if="showStorageInfo" class="p-4 bg-gray-100 rounded-lg">
-      <h4 class="font-medium text-gray-900 mb-2">存储详情</h4>
+      <h4 class="font-medium text-gray-900 mb-2">{{ $t('pages.state.persistence.info.detailsTitle') }}</h4>
       <div class="text-sm text-gray-700 space-y-1">
-        <p>深色模式: {{ themeStore.isDark }}</p>
-        <p>主色调: {{ themeStore.primaryColor }}</p>
-        <p>存储状态: {{ hasStorage ? '已存储' : '未存储' }}</p>
+        <p>{{ $t('pages.state.persistence.info.details.darkMode') }} {{ themeStore.isDark }}</p>
+        <p>{{ $t('pages.state.persistence.info.details.primaryColor') }} {{ themeStore.primaryColor }}</p>
+        <p>{{ $t('pages.state.persistence.info.details.storageState') }} {{ hasStorage ? $t('pages.state.persistence.info.details.stored') : $t('pages.state.persistence.info.details.notStored') }}</p>
       </div>
     </div>
   </div>
@@ -125,6 +125,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useThemeStore } from '@/stores/training'
+import { useI18n } from 'vue-i18n'
 
 const themeStore = useThemeStore()
 const primaryColor = ref(themeStore.primaryColor)
@@ -155,10 +156,11 @@ const applyColor = () => {
 const clearStorage = () => {
   localStorage.removeItem('theme-store')
   hasStorage.value = false
-  alert('主题存储已清除，刷新页面后将恢复默认设置')
+  alert(t('pages.state.persistence.alert.cleared') as string)
 }
 
 onMounted(() => {
   hasStorage.value = localStorage.getItem('theme-store') !== null
 })
 </script>
+const { t } = useI18n()
