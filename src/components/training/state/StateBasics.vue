@@ -1,10 +1,10 @@
 <template>
   <div class="space-y-6">
     <div class="text-center p-4 bg-blue-50 rounded-lg">
-      <h3 class="text-lg font-semibold text-blue-900 mb-2">计数器状态</h3>
+      <h3 class="text-lg font-semibold text-blue-900 mb-2">{{ $t('pages.state.basic.counterTitle') }}</h3>
       <div class="text-3xl font-bold text-blue-600">{{ counter.count }}</div>
       <div class="text-sm text-blue-700 mt-1">
-        Double: {{ counter.doubleCount }} | Triple: {{ counter.tripleCount }}
+        {{ $t('pages.state.basic.double') }} {{ counter.doubleCount }} | {{ $t('pages.state.basic.triple') }} {{ counter.tripleCount }}
       </div>
     </div>
 
@@ -36,17 +36,17 @@
         @click="counter.reset"
         class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
       >
-        重置
+        {{ $t('pages.state.basic.counter.reset') }}
       </button>
     </div>
 
     <div class="p-4 bg-gray-50 rounded-lg">
-      <h4 class="font-medium text-gray-900 mb-2">状态信息</h4>
+      <h4 class="font-medium text-gray-900 mb-2">{{ $t('pages.state.basic.info.title') }}</h4>
       <div class="text-sm text-gray-600 space-y-1">
-        <p>Store名称: {{ counter.$id }}</p>
-        <p>计数器名称: {{ counter.name }}</p>
-        <p>当前值: {{ counter.count }}</p>
-        <p>双倍值: {{ counter.doubleCount }}</p>
+        <p>{{ $t('pages.state.basic.info.labels.storeId') }} {{ counter.$id }}</p>
+        <p>{{ $t('pages.state.basic.info.labels.name') }} {{ counter.name }}</p>
+        <p>{{ $t('pages.state.basic.info.labels.count') }} {{ counter.count }}</p>
+        <p>{{ $t('pages.state.basic.info.labels.double') }} {{ counter.doubleCount }}</p>
       </div>
     </div>
 
@@ -55,25 +55,25 @@
         @click="showAdvanced = !showAdvanced"
         class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
       >
-        {{ showAdvanced ? '隐藏' : '显示' }}高级功能
+        {{ $t('pages.state.basic.advanced.toggle') }}
       </button>
     </div>
 
     <div v-if="showAdvanced" class="p-4 bg-purple-50 rounded-lg space-y-4">
-      <h4 class="font-medium text-purple-900">高级状态操作</h4>
+      <h4 class="font-medium text-purple-900">{{ $t('pages.state.basic.advanced.title') }}</h4>
       
       <div class="flex space-x-3">
         <input
           v-model.number="customAmount"
           type="number"
-          placeholder="自定义数值"
+          :placeholder="$t('pages.state.basic.advanced.amountPlaceholder')"
           class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
         >
         <button
           @click="counter.incrementBy(customAmount)"
           class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
         >
-          增加
+          {{ $t('pages.state.basic.advanced.increment') }}
         </button>
       </div>
 
@@ -81,14 +81,14 @@
         <input
           v-model="customName"
           type="text"
-          placeholder="自定义名称"
+          :placeholder="$t('pages.state.basic.advanced.namePlaceholder')"
           class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
         >
         <button
           @click="counter.name = customName"
           class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
         >
-          更新名称
+          {{ $t('pages.state.basic.advanced.updateName') }}
         </button>
       </div>
     </div>

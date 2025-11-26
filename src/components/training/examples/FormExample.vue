@@ -2,7 +2,7 @@
   <div class="space-y-4">
     <form @submit.prevent="handleSubmit" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">用户名</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('pages.components.examples.form.labels.username') }}</label>
         <input
           v-model="form.username"
           type="text"
@@ -13,7 +13,7 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('pages.components.examples.form.labels.email') }}</label>
         <input
           v-model="form.email"
           type="email"
@@ -24,7 +24,7 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">年龄</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('pages.components.examples.form.labels.age') }}</label>
         <input
           v-model.number="form.age"
           type="number"
@@ -42,20 +42,20 @@
           :disabled="isSubmitting"
           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {{ isSubmitting ? '提交中...' : '提交' }}
+          {{ isSubmitting ? $t('pages.components.examples.form.buttons.submitting') : $t('pages.components.examples.form.buttons.submit') }}
         </button>
         <button
           type="button"
           @click="resetForm"
           class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
         >
-          重置
+          {{ $t('pages.components.examples.form.buttons.reset') }}
         </button>
       </div>
     </form>
 
     <div v-if="submittedData" class="p-4 bg-green-50 border border-green-200 rounded-md">
-      <h4 class="font-medium text-green-900 mb-2">提交的数据:</h4>
+      <h4 class="font-medium text-green-900 mb-2">{{ $t('pages.components.examples.form.submittedTitle') }}</h4>
       <pre class="text-sm text-green-800">{{ JSON.stringify(submittedData, null, 2) }}</pre>
     </div>
   </div>
@@ -63,7 +63,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useForm } from '@/composables/training'
+const { t } = useI18n()
 
 interface FormData {
   username: string
@@ -81,19 +83,19 @@ const { form, errors, isSubmitting, validate, reset } = useForm<FormData>({
 
 const validators = {
   username: (value: string) => {
-    if (!value.trim()) return '用户名不能为空'
-    if (value.length < 3) return '用户名至少需要3个字符'
+    if (!value.trim()) return t('pages.components.examples.form.errors.usernameRequired') as string
+    if (value.length < 3) return t('pages.components.examples.form.errors.usernameMinLen') as string
     return ''
   },
   email: (value: string) => {
-    if (!value.trim()) return '邮箱不能为空'
+    if (!value.trim()) return t('pages.components.examples.form.errors.emailRequired') as string
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(value)) return '请输入有效的邮箱地址'
+    if (!emailRegex.test(value)) return t('pages.components.examples.form.errors.emailInvalid') as string
     return ''
   },
   age: (value: number) => {
-    if (!value) return '年龄不能为空'
-    if (value < 1 || value > 120) return '年龄必须在1-120之间'
+    if (!value) return t('pages.components.examples.form.errors.ageRequired') as string
+    if (value < 1 || value > 120) return t('pages.components.examples.form.errors.ageRange') as string
     return ''
   }
 }
@@ -107,7 +109,7 @@ const handleSubmit = () => {
   setTimeout(() => {
     submittedData.value = { ...form }
     isSubmitting.value = false
-    alert('表单提交成功！')
+    alert(t('pages.components.examples.form.alerts.submitSuccess') as string)
   }, 1000)
 }
 

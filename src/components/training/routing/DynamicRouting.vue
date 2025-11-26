@@ -1,12 +1,12 @@
 <template>
   <div class="space-y-6">
     <div class="p-4 bg-blue-50 rounded-lg">
-      <h3 class="text-lg font-semibold text-blue-900 mb-2">动态路由演示</h3>
-      <p class="text-sm text-blue-800">点击下面的任务项查看动态路由效果</p>
+      <h3 class="text-lg font-semibold text-blue-900 mb-2">{{ $t('pages.router.dynamic.title') }}</h3>
+      <p class="text-sm text-blue-800">{{ $t('pages.router.dynamic.desc') }}</p>
     </div>
 
     <div class="space-y-4">
-      <h4 class="font-medium text-gray-900">任务列表</h4>
+      <h4 class="font-medium text-gray-900">{{ $t('pages.router.dynamic.tasks.title') }}</h4>
       
       <div class="grid gap-2">
         <router-link 
@@ -25,7 +25,7 @@
                 class="px-2 py-1 text-xs rounded-full"
                 :class="task.completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'"
               >
-                {{ task.completed ? '已完成' : '进行中' }}
+                {{ task.completed ? $t('pages.router.dynamic.tasks.status.completed') : $t('pages.router.dynamic.tasks.status.inProgress') }}
               </span>
               <div class="text-xs text-gray-500 mt-1">
                 ID: {{ task.id }}
@@ -37,13 +37,13 @@
     </div>
 
     <div class="space-y-4">
-      <h4 class="font-medium text-gray-900">手动输入任务ID</h4>
+      <h4 class="font-medium text-gray-900">{{ $t('pages.router.dynamic.tasks.manualTitle') }}</h4>
       
       <div class="flex space-x-3">
         <input
           v-model.number="manualTaskId"
           type="number"
-          placeholder="输入任务ID"
+            :placeholder="$t('pages.router.dynamic.tasks.inputPlaceholder')"
           class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
         <button
@@ -51,26 +51,26 @@
           :disabled="!manualTaskId"
           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          跳转
+          {{ $t('pages.router.dynamic.tasks.go') }}
         </button>
       </div>
     </div>
 
     <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
-      <h4 class="font-medium text-green-900 mb-2">动态路由说明</h4>
+      <h4 class="font-medium text-green-900 mb-2">{{ $t('pages.router.dynamic.help.title') }}</h4>
       <ul class="text-sm text-green-800 space-y-1">
-        <li>• 路径 /task/:id 中的 :id 是动态参数</li>
-        <li>• 在组件中可以通过 $route.params.id 获取参数</li>
-        <li>• 也可以将参数作为 props 传递给组件</li>
-        <li>• 动态路由支持多个参数，如 /user/:userId/post/:postId</li>
+        <li>• {{ $t('pages.router.dynamic.help.items.param') }}</li>
+        <li>• {{ $t('pages.router.dynamic.help.items.getParam') }}</li>
+        <li>• {{ $t('pages.router.dynamic.help.items.props') }}</li>
+        <li>• {{ $t('pages.router.dynamic.help.items.multi') }}</li>
       </ul>
     </div>
 
     <div v-if="$route.params.id" class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-      <h4 class="font-medium text-yellow-900 mb-2">当前路由参数</h4>
+      <h4 class="font-medium text-yellow-900 mb-2">{{ $t('pages.router.dynamic.info.title') }}</h4>
       <div class="text-sm text-yellow-800">
-        <p>任务ID: {{ $route.params.id }}</p>
-        <p>完整路径: {{ $route.path }}</p>
+        <p>{{ $t('pages.router.dynamic.info.taskId') }} {{ $route.params.id }}</p>
+        <p>{{ $t('pages.router.dynamic.info.fullPath') }} {{ $route.path }}</p>
       </div>
     </div>
   </div>

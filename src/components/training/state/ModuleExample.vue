@@ -2,31 +2,31 @@
   <div class="space-y-6">
     <div class="grid grid-cols-2 gap-4">
       <div class="p-4 bg-blue-50 rounded-lg">
-        <h4 class="text-sm font-medium text-blue-900 mb-2">计数器模块</h4>
+        <h4 class="text-sm font-medium text-blue-900 mb-2">{{ $t('pages.state.module.counter.title') }}</h4>
         <div class="text-2xl font-bold text-blue-600">{{ counter.count }}</div>
         <div class="text-sm text-blue-700">{{ counter.doubleCount }}</div>
       </div>
       
       <div class="p-4 bg-green-50 rounded-lg">
-        <h4 class="text-sm font-medium text-green-900 mb-2">用户模块</h4>
+        <h4 class="text-sm font-medium text-green-900 mb-2">{{ $t('pages.state.module.user.title') }}</h4>
         <div class="text-2xl font-bold text-green-600">{{ userStore.userCount }}</div>
-        <div class="text-sm text-green-700">{{ userStore.averageAge }}岁</div>
+        <div class="text-sm text-green-700">{{ userStore.averageAge }}{{ $t('pages.state.module.user.ageSuffix') }}</div>
       </div>
     </div>
 
     <div class="bg-gray-50 p-4 rounded-lg">
-      <h4 class="font-medium text-gray-900 mb-3">跨模块交互</h4>
+      <h4 class="font-medium text-gray-900 mb-3">{{ $t('pages.state.module.cross.title') }}</h4>
       
       <div class="space-y-3">
         <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-600">计数器值影响用户数量</span>
+          <span class="text-sm text-gray-600">{{ $t('pages.state.module.cross.counterAffectsUsers') }}</span>
           <span class="text-sm font-medium" :class="userCountBasedOnCounter > 0 ? 'text-green-600' : 'text-gray-400'">
-            {{ userCountBasedOnCounter }} 个用户
+            {{ userCountBasedOnCounter }} {{ $t('pages.state.module.cross.userCountLabel') }}
           </span>
         </div>
         
         <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-600">用户平均年龄影响计数器</span>
+          <span class="text-sm text-gray-600">{{ $t('pages.state.module.cross.userAgeAffectsCounter') }}</span>
           <span class="text-sm font-medium text-blue-600">
             +{{ counterBonus }}
           </span>
@@ -36,7 +36,7 @@
 
     <div class="grid grid-cols-2 gap-4">
       <div class="space-y-3">
-        <h5 class="font-medium text-gray-900">控制计数器</h5>
+        <h5 class="font-medium text-gray-900">{{ $t('pages.state.module.counter.controlTitle') }}</h5>
         <div class="flex space-x-2">
           <button
             @click="counter.increment"
@@ -54,32 +54,32 @@
             @click="counter.reset"
             class="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
           >
-            重置
+            {{ $t('pages.state.module.counter.reset') }}
           </button>
         </div>
       </div>
       
       <div class="space-y-3">
-        <h5 class="font-medium text-gray-900">控制用户</h5>
+        <h5 class="font-medium text-gray-900">{{ $t('pages.state.module.user.controlTitle') }}</h5>
         <div class="flex space-x-2">
           <button
             @click="addRandomUser"
             class="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700"
           >
-            添加用户
+            {{ $t('pages.state.module.user.add') }}
           </button>
           <button
             @click="removeLastUser"
             class="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
           >
-            删除用户
+            {{ $t('pages.state.module.user.delete') }}
           </button>
         </div>
       </div>
     </div>
 
     <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-      <h5 class="font-medium text-yellow-900 mb-2">模块间通信日志</h5>
+      <h5 class="font-medium text-yellow-900 mb-2">{{ $t('pages.state.module.logs.title') }}</h5>
       <div class="text-sm text-yellow-800 space-y-1 max-h-32 overflow-y-auto">
         <p v-for="(log, index) in communicationLogs" :key="index" class="text-xs">
           {{ log }}
@@ -92,16 +92,16 @@
         @click="showAdvanced = !showAdvanced"
         class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
       >
-        {{ showAdvanced ? '隐藏' : '显示' }}高级功能
+        {{ $t('pages.state.module.advanced.toggle') }}
       </button>
     </div>
 
     <div v-if="showAdvanced" class="p-4 bg-purple-50 rounded-lg space-y-4">
-      <h5 class="font-medium text-purple-900">高级模块化功能</h5>
+      <h5 class="font-medium text-purple-900">{{ $t('pages.state.module.advanced.title') }}</h5>
       
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">计数器增量</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('pages.state.module.advanced.incrementLabel') }}</label>
           <div class="flex space-x-2">
             <input
               v-model.number="customIncrement"
@@ -112,13 +112,13 @@
               @click="counter.incrementBy(customIncrement)"
               class="px-3 py-1 bg-purple-600 text-white rounded text-sm hover:bg-purple-700"
             >
-              应用
+              {{ $t('pages.state.module.advanced.apply') }}
             </button>
           </div>
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">用户年龄</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('pages.state.module.advanced.ageLabel') }}</label>
           <div class="flex space-x-2">
             <input
               v-model.number="customAge"
@@ -129,7 +129,7 @@
               @click="addUserWithAge"
               class="px-3 py-1 bg-purple-600 text-white rounded text-sm hover:bg-purple-700"
             >
-              添加
+              {{ $t('pages.state.module.advanced.add') }}
             </button>
           </div>
         </div>
@@ -140,6 +140,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useCounterStore, useUserStore } from '@/stores/training'
 
 const counter = useCounterStore()
@@ -162,30 +163,42 @@ const counterBonus = computed(() => {
 
 // 监听计数器变化
 watch(() => counter.count, (newCount, oldCount) => {
-  communicationLogs.value.push(`计数器变化: ${oldCount} → ${newCount}`)
+  communicationLogs.value.push(t('pages.state.module.logs.counterChanged', { old: oldCount, new: newCount }) as string)
   
   // 每增加10个计数，添加一个用户
   if (newCount % 10 === 0 && newCount > oldCount) {
-    const userNames = ['小明', '小红', '小刚', '小丽', '小华']
+    const userNames = [
+      t('pages.state.module.sampleNames.zhKids[0]') as string,
+      t('pages.state.module.sampleNames.zhKids[1]') as string,
+      t('pages.state.module.sampleNames.zhKids[2]') as string,
+      t('pages.state.module.sampleNames.zhKids[3]') as string,
+      t('pages.state.module.sampleNames.zhKids[4]') as string
+    ]
     const randomName = userNames[Math.floor(Math.random() * userNames.length)]
     userStore.addUser({
       name: randomName,
       email: `${randomName.toLowerCase()}@example.com`,
       age: 20 + Math.floor(Math.random() * 20)
     })
-    communicationLogs.value.push(`自动添加用户: ${randomName}`)
+    communicationLogs.value.push(t('pages.state.module.logs.autoAddUser', { name: randomName }) as string)
   }
 })
 
 // 监听用户变化
 watch(() => userStore.users.length, (newLength, oldLength) => {
   if (newLength !== oldLength) {
-    communicationLogs.value.push(`用户数量变化: ${oldLength} → ${newLength}`)
+    communicationLogs.value.push(t('pages.state.module.logs.userCountChanged', { old: oldLength, new: newLength }) as string)
   }
 })
 
 const addRandomUser = () => {
-  const names = ['张三', '李四', '王五', '赵六', '钱七']
+  const names = [
+    t('pages.state.module.sampleNames.zhAdults[0]') as string,
+    t('pages.state.module.sampleNames.zhAdults[1]') as string,
+    t('pages.state.module.sampleNames.zhAdults[2]') as string,
+    t('pages.state.module.sampleNames.zhAdults[3]') as string,
+    t('pages.state.module.sampleNames.zhAdults[4]') as string
+  ]
   const randomName = names[Math.floor(Math.random() * names.length)]
   userStore.addUser({
     name: randomName,
@@ -202,7 +215,11 @@ const removeLastUser = () => {
 }
 
 const addUserWithAge = () => {
-  const names = ['新用户', '测试用户', '示例用户']
+  const names = [
+    t('pages.state.module.sampleNames.generic[0]') as string,
+    t('pages.state.module.sampleNames.generic[1]') as string,
+    t('pages.state.module.sampleNames.generic[2]') as string
+  ]
   const randomName = names[Math.floor(Math.random() * names.length)]
   userStore.addUser({
     name: randomName,
@@ -211,3 +228,4 @@ const addUserWithAge = () => {
   })
 }
 </script>
+const { t } = useI18n()

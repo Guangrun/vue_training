@@ -4,7 +4,7 @@
       <input
         v-model="searchQuery"
         type="text"
-        placeholder="搜索内容..."
+        :placeholder="$t('pages.components.examples.search.placeholder')"
         class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -15,7 +15,7 @@
     </div>
 
     <div class="flex items-center space-x-2">
-      <span class="text-sm text-gray-600">搜索状态:</span>
+      <span class="text-sm text-gray-600">{{ $t('pages.components.examples.search.statusLabel') }}</span>
       <span 
         class="px-2 py-1 text-xs rounded-full"
         :class="searchStatus.class"
@@ -25,7 +25,7 @@
     </div>
 
     <div v-if="searchResults.length > 0" class="space-y-2">
-      <h4 class="font-medium text-gray-900">搜索结果:</h4>
+      <h4 class="font-medium text-gray-900">{{ $t('pages.components.examples.search.resultsLabel') }}</h4>
       <div 
         v-for="(result, index) in searchResults" 
         :key="index"
@@ -36,13 +36,16 @@
     </div>
 
     <div v-else-if="searchQuery && !isSearching" class="text-gray-500 text-sm">
-      未找到相关结果
+      {{ $t('pages.components.examples.search.noResults') }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const searchQuery = ref('')
 const searchResults = ref<string[]>([])
@@ -51,17 +54,17 @@ const isSearching = ref(false)
 const searchStatus = computed(() => {
   if (isSearching.value) {
     return {
-      text: '搜索中...',
+      text: t('pages.components.examples.search.state.searching') as string,
       class: 'bg-yellow-100 text-yellow-800'
     }
   } else if (searchQuery.value) {
     return {
-      text: '搜索完成',
+      text: t('pages.components.examples.search.state.done') as string,
       class: 'bg-green-100 text-green-800'
     }
   } else {
     return {
-      text: '等待输入',
+      text: t('pages.components.examples.search.state.waiting') as string,
       class: 'bg-gray-100 text-gray-800'
     }
   }
@@ -81,9 +84,9 @@ watch(searchQuery, async (newQuery) => {
   
   // 模拟搜索结果
   searchResults.value = [
-    `${newQuery} - 相关结果 1`,
-    `${newQuery} - 相关结果 2`,
-    `${newQuery} - 相关结果 3`
+    `${newQuery} - ${t('pages.components.examples.search.mock.resultSuffix')} 1`,
+    `${newQuery} - ${t('pages.components.examples.search.mock.resultSuffix')} 2`,
+    `${newQuery} - ${t('pages.components.examples.search.mock.resultSuffix')} 3`
   ]
   
   isSearching.value = false

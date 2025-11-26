@@ -18,6 +18,26 @@ export const useAuthStore = defineStore('auth', {
     displayName: (s) => s.user?.profile?.name || s.user?.profile?.email || 'User'
   },
   actions: {
+    init() {
+      const mgr = createUserManager()
+      mgr.events.addUserLoaded((u) => {
+        storeUser(u)
+        this.user = u as any
+      })
+      mgr.events.addUserUnloaded(() => {
+        clearStoredUser()
+        this.user = null
+      })
+      mgr.events.addAccessTokenExpired(() => {
+        clearStoredUser()
+        this.user = null
+      })
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'oidc_user') {
+          this.user = getStoredUser()
+        }
+      })
+    },
     async login() {
       const mgr = createUserManager()
       await mgr.signinRedirect()
@@ -48,4 +68,3 @@ export const useAuthStore = defineStore('auth', {
     }
   }
 })
-
