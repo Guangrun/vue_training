@@ -382,6 +382,12 @@ const messages = {
         practice: { title: 'Practical', desc: 'Build a real task system to apply theory.' },
         modernStack: { title: 'Modern Stack', desc: 'Vue 3, TypeScript, Pinia, aligned with industry.' },
         best: { title2: 'Best Practices', desc2: 'Follow official recommendations for maintainable code.' }
+      },
+      repo: {
+        title: 'GitHub Repository',
+        linkLabel: 'Open Repository',
+        windowsTitle: 'Windows (PowerShell)',
+        macosTitle: 'macOS (zsh)'
       }
     },
     pages: {

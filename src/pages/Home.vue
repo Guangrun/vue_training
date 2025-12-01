@@ -104,6 +104,33 @@
         </div>
       </div>
     </div>
+
+    <div class="bg-white p-8 rounded-lg shadow-sm border mt-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">{{ $t('home.repo.title') }}</h2>
+      <div class="flex items-center space-x-3 mb-4">
+        <a href="https://github.com/Guangrun/vue_training" target="_blank" rel="noopener" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          {{ $t('home.repo.linkLabel') }}
+        </a>
+        <span class="text-gray-500">https://github.com/Guangrun/vue_training</span>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-gray-50 border rounded-lg p-4">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $t('home.repo.windowsTitle') }}</h3>
+          <pre class="text-sm bg-white border rounded p-3 overflow-x-auto"><code>git clone https://github.com/Guangrun/vue_training.git
+cd vue_training
+npm install
+npm run dev</code></pre>
+        </div>
+        <div class="bg-gray-50 border rounded-lg p-4">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $t('home.repo.macosTitle') }}</h3>
+          <pre class="text-sm bg-white border rounded p-3 overflow-x-auto"><code>git clone https://github.com/Guangrun/vue_training.git
+cd vue_training
+npm install
+npm run dev</code></pre>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
